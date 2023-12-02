@@ -3,6 +3,7 @@ input*.txt
 !scripts/skeleton/tmpls/input.txt
 prompt.md
 prompt.txt
+*.png
 
 // ignore files that are prefixed with an underscore
 _*
