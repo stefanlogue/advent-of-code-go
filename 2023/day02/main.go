@@ -4,6 +4,7 @@ import (
 	_ "embed"
 	"flag"
 	"fmt"
+	"regexp"
 	"strings"
 
 	"github.com/stefanlogue/advent-of-code-go/cast"
@@ -38,15 +39,71 @@ func main() {
 	}
 }
 
-func part1(input string) int {
-	parsed := parseInput(input)
-	_ = parsed
+func numberOfCubes(input string) (red int, green int, blue int) {
+	redRe := regexp.MustCompile(`(\d+) red`)
+	greenRe := regexp.MustCompile(`(\d+) green`)
+	blueRe := regexp.MustCompile(`(\d+) blue`)
+	var numRed int
+	var numGreen int
+	var numBlue int
+	if redStrings := redRe.FindStringSubmatch(input); len(redStrings) > 0 {
+		numRed = cast.ToInt(redStrings[1])
+	}
+	if greenStrings := greenRe.FindStringSubmatch(input); len(greenStrings) > 0 {
+		numGreen = cast.ToInt(greenStrings[1])
+	}
+	if blueStrings := blueRe.FindStringSubmatch(input); len(blueStrings) > 0 {
+		numBlue = cast.ToInt(blueStrings[1])
+	}
+	return numRed, numGreen, numBlue
+}
 
-	return 0
+func part1(input string) int {
+	maxRed, maxGreen, maxBlue := 12, 13, 14
+	games := strings.Split(input, "\n")
+	sum := 0
+	for id, game := range games {
+		checks := strings.Split(game, "; ")
+		gameIsValid := true
+		for _, check := range checks {
+			numRed, numGreen, numBlue := numberOfCubes(check)
+			if numRed+numGreen+numBlue == 0 {
+				gameIsValid = false
+			}
+			if numRed > maxRed || numGreen > maxGreen || numBlue > maxBlue {
+				gameIsValid = false
+				break
+			}
+		}
+		if gameIsValid {
+			sum += id + 1
+		}
+	}
+
+	return sum
 }
 
 func part2(input string) int {
-	return 0
+	games := strings.Split(input, "\n")
+	sum := 0
+	for _, game := range games {
+		minRed, minGreen, minBlue := 0, 0, 0
+		for _, check := range strings.Split(game, "; ") {
+			numRed, numGreen, numBlue := numberOfCubes(check)
+			if numRed > minRed {
+				minRed = numRed
+			}
+			if numBlue > minBlue {
+				minBlue = numBlue
+			}
+			if numGreen > minGreen {
+				minGreen = numGreen
+			}
+		}
+		power := minRed * minGreen * minBlue
+		sum += power
+	}
+	return sum
 }
 
 func parseInput(input string) (ans []int) {
