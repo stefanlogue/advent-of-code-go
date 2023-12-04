@@ -74,10 +74,3 @@ func part2(input string) int {
 	}
 	return sum
 }
-
-func parseInput(input string) (ans []int) {
-	for _, line := range strings.Split(input, "\n") {
-		ans = append(ans, cast.ToInt(line))
-	}
-	return ans
-}

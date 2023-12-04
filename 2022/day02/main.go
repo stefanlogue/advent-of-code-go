@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/stefanlogue/advent-of-code-go/cast"
 	"github.com/stefanlogue/advent-of-code-go/util"
 )
 
@@ -39,19 +38,89 @@ func main() {
 }
 
 func part1(input string) int {
-	parsed := parseInput(input)
-	_ = parsed
+	score := 0
+	games := strings.Split(input, "\n")
+	for _, game := range games {
+		moves := strings.Split(game, " ")
+		if len(moves) != 2 {
+			break
+		}
+		var player1Move string
+		switch moves[0] {
+		case "A":
+			player1Move = "rock"
+		case "B":
+			player1Move = "paper"
+		case "C":
+			player1Move = "scissors"
+		}
+		var player2Move string
+		switch moves[1] {
+		case "X":
+			player2Move = "rock"
+			score += 1
+		case "Y":
+			player2Move = "paper"
+			score += 2
+		case "Z":
+			player2Move = "scissors"
+			score += 3
+		}
 
-	return 0
+		if player1Move == player2Move {
+			score += 3
+		} else if player1Move == "rock" && player2Move == "scissors" {
+			continue
+		} else if player1Move == "paper" && player2Move == "rock" {
+			continue
+		} else if player1Move == "scissors" && player2Move == "paper" {
+			continue
+		} else {
+			score += 6
+		}
+
+	}
+
+	return score
 }
 
 func part2(input string) int {
-	return 0
-}
-
-func parseInput(input string) (ans []int) {
-	for _, line := range strings.Split(input, "\n") {
-		ans = append(ans, cast.ToInt(line))
+	score := 0
+	games := strings.Split(input, "\n")
+	for _, game := range games {
+		moves := strings.Split(game, " ")
+		if len(moves) != 2 {
+			break
+		}
+		switch moves[1] {
+		case "X":
+			switch moves[0] {
+			case "A":
+				score += 3
+			case "B":
+				score += 1
+			case "C":
+				score += 2
+			}
+		case "Y":
+			switch moves[0] {
+			case "A":
+				score += 4
+			case "B":
+				score += 5
+			case "C":
+				score += 6
+			}
+		case "Z":
+			switch moves[0] {
+			case "A":
+				score += 8
+			case "B":
+				score += 9
+			case "C":
+				score += 7
+			}
+		}
 	}
-	return ans
+	return score
 }
