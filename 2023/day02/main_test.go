@@ -37,6 +37,12 @@ func Test_part1(t *testing.T) {
 	}
 }
 
+func Benchmark_part1(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		part1(example)
+	}
+}
+
 func Test_part2(t *testing.T) {
 	tests := []struct {
 		name  string

@@ -15,6 +15,8 @@ import (
 //go:embed input.txt
 var input string
 
+var digitRegex = regexp.MustCompile("[0-9]")
+
 func init() {
 	// do this in init (not main) so test file has same input
 	input = strings.TrimRight(input, "\n")
@@ -51,8 +53,7 @@ func part1(input string) int {
 }
 
 func getDigitsFromLine(line string) int {
-	re := regexp.MustCompile("[0-9]")
-	matches := re.FindAllString(line, -1)
+	matches := digitRegex.FindAllString(line, -1)
 	if len(matches) == 0 {
 		return 0
 	}

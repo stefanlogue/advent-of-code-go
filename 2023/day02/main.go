@@ -14,6 +14,12 @@ import (
 //go:embed input.txt
 var input string
 
+var (
+	redRegex   = regexp.MustCompile(`(\d+) red`)
+	greenRegex = regexp.MustCompile(`(\d+) green`)
+	blueRegex  = regexp.MustCompile(`(\d+) blue`)
+)
+
 func init() {
 	// do this in init (not main) so test file has same input
 	input = strings.TrimRight(input, "\n")
@@ -40,19 +46,16 @@ func main() {
 }
 
 func numberOfCubes(input string) (red int, green int, blue int) {
-	redRe := regexp.MustCompile(`(\d+) red`)
-	greenRe := regexp.MustCompile(`(\d+) green`)
-	blueRe := regexp.MustCompile(`(\d+) blue`)
 	var numRed int
 	var numGreen int
 	var numBlue int
-	if redStrings := redRe.FindStringSubmatch(input); len(redStrings) > 0 {
+	if redStrings := redRegex.FindStringSubmatch(input); len(redStrings) > 0 {
 		numRed = cast.ToInt(redStrings[1])
 	}
-	if greenStrings := greenRe.FindStringSubmatch(input); len(greenStrings) > 0 {
+	if greenStrings := greenRegex.FindStringSubmatch(input); len(greenStrings) > 0 {
 		numGreen = cast.ToInt(greenStrings[1])
 	}
-	if blueStrings := blueRe.FindStringSubmatch(input); len(blueStrings) > 0 {
+	if blueStrings := blueRegex.FindStringSubmatch(input); len(blueStrings) > 0 {
 		numBlue = cast.ToInt(blueStrings[1])
 	}
 	return numRed, numGreen, numBlue
