@@ -4,7 +4,8 @@ import (
 	"testing"
 )
 
-var example = ``
+var example = `Time:      7  15   30
+Distance:  9  40  200`
 
 func Test_part1(t *testing.T) {
 	tests := []struct {
@@ -15,7 +16,7 @@ func Test_part1(t *testing.T) {
 		{
 			name:  "example",
 			input: example,
-			want:  0,
+			want:  288,
 		},
 		// {
 		// 	name:  "actual",
@@ -41,7 +42,7 @@ func Test_part2(t *testing.T) {
 		{
 			name:  "example",
 			input: example,
-			want:  0,
+			want:  71503,
 		},
 		// {
 		// 	name:  "actual",
